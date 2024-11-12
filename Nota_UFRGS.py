@@ -113,9 +113,9 @@ peso_port_red = pesos_curso[disciplina_peso_map['Português e Redação']]
 # Lista para armazenar os dados de entrada
 dados_aluno = [
     {
-        'Disciplina': 'Português e Redação',
+        'Disciplina': 'Port. e Red.',
         'Peso': peso_port_red,
-        'Escore Bruto (Acertos)': acertos_port_red,
+        'Acertos': acertos_port_red,
         'Média': medias['Português e Redação'],
         'Desvio Padrão': desvios['Português e Redação']
     }
@@ -127,7 +127,7 @@ peso_lingua = pesos_curso[disciplina_peso_map['Língua Estrangeira']]
 dados_aluno.append({
     'Disciplina': lingua_estrangeira,
     'Peso': peso_lingua,
-    'Escore Bruto (Acertos)': acertos_lingua,
+    'Acertos': acertos_lingua,
     'Média': medias[lingua_estrangeira],
     'Desvio Padrão': desvios[lingua_estrangeira]
 })
@@ -148,7 +148,7 @@ for disciplina, acertos in disciplinas_acertos.items():
     dados_aluno.append({
         'Disciplina': disciplina,
         'Peso': peso,
-        'Escore Bruto (Acertos)': acertos,
+        'Acertos': acertos,
         'Média': medias[disciplina],
         'Desvio Padrão': desvios[disciplina]
     })
@@ -158,7 +158,7 @@ df_acertos = pd.DataFrame(dados_aluno)
 
 # Calcular Escore Padronizado
 df_acertos['Escore Padronizado'] = df_acertos.apply(
-    lambda x: 500 + ((x['Escore Bruto (Acertos)'] - x['Média']) / x['Desvio Padrão']) * 100,
+    lambda x: 500 + ((x['Acertos'] - x['Média']) / x['Desvio Padrão']) * 100,
     axis=1
 )
 
@@ -172,13 +172,13 @@ print()
 # Mostrar a tabela formatada
 st.subheader("Tabela de Notas")
  
-df_formatada = df_acertos[['Disciplina', 'Peso', 'Escore Bruto (Acertos)',  'Média', 'Desvio Padrão', 'Escore Padronizado']]
+df_formatada = df_acertos[['Disciplina', 'Peso', 'Acertos',  'Média', 'Desvio Padrão', 'Escore Padronizado']]
 df_formatada.set_index('Disciplina', inplace=True)
 
 # Exibir a tabela formatada
 st.dataframe(
     df_formatada.style.format(
-        {'Peso': '{:.0f}', 'Escore Bruto (Acertos)': '{:.2f}', 
+        {'Peso': '{:.0f}', 'Acertos': '{:.2f}', 
          'Média': '{:.4f}', 'Desvio Padrão': '{:.4f}', 
          'Escore Padronizado': '{:.2f}'}
     )
