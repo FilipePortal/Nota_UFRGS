@@ -91,18 +91,18 @@ with col1:
     st.subheader("1° Dia") 
     #st.markdown("<h2>1° Dia </h2>", unsafe_allow_html=True, font-size: 14px)
     acertos_portugues = st.slider("Acertos em Português:", min_value=0, max_value=15, step=1)
-    acertos_redacao = st.slider("Nota em Redação:", min_value=0.0, max_value=15.0, step=0.05)
     acertos_literatura = st.slider("Acertos em Literatura:", min_value=0, max_value=15, step=1)
     acertos_historia = st.slider("Acertos em História:", min_value=0, max_value=15, step=1)
+    acertos_geografia = st.slider("Acertos em Geografia:", min_value=0, max_value=15, step=1)
     acertos_matematica = st.slider("Acertos em Matemática:", min_value=0, max_value=15, step=1)
 
 # Segunda coluna para os próximos 5 campos
 with col2:
     st.subheader("2° Dia") 
+    acertos_redacao = st.slider("Nota em Redação:", min_value=0.0, max_value=15.0, step=0.05)
     acertos_lingua = st.slider(f"Acertos em {lingua_estrangeira}:", min_value=0, max_value=15, step=1)
     acertos_fisica = st.slider("Acertos em Física:", min_value=0, max_value=15, step=1)
     acertos_quimica = st.slider("Acertos em Química:", min_value=0, max_value=15, step=1)
-    acertos_geografia = st.slider("Acertos em Geografia:", min_value=0, max_value=15, step=1)
     acertos_biologia = st.slider("Acertos em Biologia:", min_value=0, max_value=15, step=1)
 
 
