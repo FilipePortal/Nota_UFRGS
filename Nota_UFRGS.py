@@ -5,8 +5,8 @@ import pandas as pd
 st.title("Cálculo da Nota - UFRGS")
 
 # Carregar o arquivo fixo de pesos
-pesos_file = 'Pesos_UFRGS.xlsx'
-df_pesos = pd.read_excel(pesos_file, engine='openpyxl')
+pesos_file = 'Pesos_UFRGS.csv'
+df_pesos = pd.read_csv(pesos_file, sep=';', encoding='latin-1')
     
 #Criação das colunas para entrada de acertos
 st.subheader("Escolha o curso e a língua estrangeira")
