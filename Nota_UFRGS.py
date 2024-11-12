@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Título do App
+#st.set_page_config(layout="wide")  # Define o layout como "wide" para ocupar a tela inteira
 st.title("Cálculo da Nota - UFRGS")
 
 # Carregar o arquivo fixo de pesos
@@ -80,29 +81,30 @@ desvios = {
 }
 
 # Criação das colunas para entrada de acertos
-st.subheader("Preencha os acertos para cada disciplina")
+#st.subheader("Preencha os acertos para cada disciplina")
 
 # Usar as colunas para reduzir o espaço
 col1, col2 = st.columns(2)
 
 # Primeira coluna para os primeiros 5 campos
 with col1:
-    acertos_portugues = st.number_input("Acertos em Português:", min_value=0, max_value=15, step=1)
-    acertos_redacao = st.number_input("Nota em Redação:", min_value=0.0, max_value=15.0, step=0.05)
-    acertos_literatura = st.number_input("Acertos em Literatura:", min_value=0, max_value=15, step=1)
-    acertos_historia = st.number_input("Acertos em História:", min_value=0, max_value=15, step=1)
-    acertos_matematica = st.number_input("Acertos em Matemática:", min_value=0, max_value=15, step=1)
+    st.subheader("1° Dia") 
+    #st.markdown("<h2>1° Dia </h2>", unsafe_allow_html=True, font-size: 14px)
+    acertos_portugues = st.slider("Acertos em Português:", min_value=0, max_value=15, step=1)
+    acertos_redacao = st.slider("Nota em Redação:", min_value=0.0, max_value=15.0, step=0.05)
+    acertos_literatura = st.slider("Acertos em Literatura:", min_value=0, max_value=15, step=1)
+    acertos_historia = st.slider("Acertos em História:", min_value=0, max_value=15, step=1)
+    acertos_matematica = st.slider("Acertos em Matemática:", min_value=0, max_value=15, step=1)
 
 # Segunda coluna para os próximos 5 campos
 with col2:
-    acertos_lingua = st.number_input(f"Acertos em {lingua_estrangeira}:", min_value=0, max_value=15, step=1)
-    acertos_fisica = st.number_input("Acertos em Física:", min_value=0, max_value=15, step=1)
-    acertos_quimica = st.number_input("Acertos em Química:", min_value=0, max_value=15, step=1)
-    acertos_geografia = st.number_input("Acertos em Geografia:", min_value=0, max_value=15, step=1)
-    acertos_biologia = st.number_input("Acertos em Biologia:", min_value=0, max_value=15, step=1)
+    st.subheader("2° Dia") 
+    acertos_lingua = st.slider(f"Acertos em {lingua_estrangeira}:", min_value=0, max_value=15, step=1)
+    acertos_fisica = st.slider("Acertos em Física:", min_value=0, max_value=15, step=1)
+    acertos_quimica = st.slider("Acertos em Química:", min_value=0, max_value=15, step=1)
+    acertos_geografia = st.slider("Acertos em Geografia:", min_value=0, max_value=15, step=1)
+    acertos_biologia = st.slider("Acertos em Biologia:", min_value=0, max_value=15, step=1)
 
-# Adiciona o botão
-st.button("Atualizar")
 
 # Cálculo de escore bruto para Português e Redação
 acertos_port_red = acertos_portugues + acertos_redacao
@@ -201,3 +203,6 @@ if curso_selecionado == "Medicina - Bacharelado":
         st.write(f"{modalidade}: {nota_corte:.2f}")
 else:
     st.write('')
+
+st.caption("*Cálculo baseado nos dados da UFRGS 2023")
+st.caption("v.2024 Prof. Portal")
