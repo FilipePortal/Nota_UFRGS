@@ -117,7 +117,7 @@ dados_aluno = [
         'Peso': peso_port_red,
         'Acertos': acertos_port_red,
         'Média': medias['Português e Redação'],
-        'Desvio Padrão': desvios['Português e Redação']
+        'Des. Padrão': desvios['Português e Redação']
     }
 ]
 
@@ -129,7 +129,7 @@ dados_aluno.append({
     'Peso': peso_lingua,
     'Acertos': acertos_lingua,
     'Média': medias[lingua_estrangeira],
-    'Desvio Padrão': desvios[lingua_estrangeira]
+    'Des. Padrão': desvios[lingua_estrangeira]
 })
 
 # Adicionar dados de outras disciplinas
@@ -150,20 +150,20 @@ for disciplina, acertos in disciplinas_acertos.items():
         'Peso': peso,
         'Acertos': acertos,
         'Média': medias[disciplina],
-        'Desvio Padrão': desvios[disciplina]
+        'Des. Padrão': desvios[disciplina]
     })
 
 # Transformar em DataFrame
 df_acertos = pd.DataFrame(dados_aluno)
 
 # Calcular Escore Padronizado
-df_acertos['Escore Padronizado'] = df_acertos.apply(
-    lambda x: 500 + ((x['Acertos'] - x['Média']) / x['Desvio Padrão']) * 100,
+df_acertos['Notas'] = df_acertos.apply(
+    lambda x: 500 + ((x['Acertos'] - x['Média']) / x['Des. Padrão']) * 100,
     axis=1
 )
 
 # Calcular a Nota Ponderada
-df_acertos['Nota Ponderada'] = df_acertos['Peso'] / df_acertos['Escore Padronizado']
+df_acertos['Nota Ponderada'] = df_acertos['Peso'] / df_acertos['Notas']
 
 # Calcular a média ponderada total
 nota_final = df_acertos['Peso'].sum() / df_acertos['Nota Ponderada'].sum() 
@@ -172,17 +172,19 @@ print()
 # Mostrar a tabela formatada
 st.subheader("Tabela de Notas")
  
-df_formatada = df_acertos[['Disciplina', 'Peso', 'Acertos',  'Média', 'Desvio Padrão', 'Escore Padronizado']]
+df_formatada = df_acertos[['Disciplina', 'Peso', 'Acertos', 'Notas', 'Média', 'Des. Padrão']]
+
 df_formatada.set_index('Disciplina', inplace=True)
 
 # Exibir a tabela formatada
 st.dataframe(
     df_formatada.style.format(
         {'Peso': '{:.0f}', 'Acertos': '{:.2f}', 
-         'Média': '{:.4f}', 'Desvio Padrão': '{:.4f}', 
-         'Escore Padronizado': '{:.2f}'}
+         'Média': '{:.4f}', 'Des. Padrão': '{:.4f}', 
+         'Notas': '{:.2f}'}
     )
 )
+
 
 # Exibir a nota final
 st.subheader(f"Nota Final: {nota_final:.2f}")
