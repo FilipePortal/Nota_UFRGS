@@ -2,18 +2,18 @@ import streamlit as st
 import pandas as pd
 
 # Título do App
-#st.set_page_config(layout="wide")  # Define o layout como "wide" para ocupar a tela inteira
 st.title("Cálculo da Nota - UFRGS")
 
-# Carregar o arquivo fixo de pesos
-pesos_file = 'Pesos_UFRGS.csv'
+# Carregar o arquivo de Pesos e Notas de Corte
+pesos_file = 'Pesos_NotasCortes_UFRGS.csv'
 df_pesos = pd.read_csv(pesos_file, sep=';', encoding='latin-1')
+
     
 #Criação das colunas para entrada de acertos
 st.subheader("Escolha o curso e a língua estrangeira")
 
 # Selecionar o curso
-cursos = df_pesos['CURSOS'].unique()
+cursos = df_pesos['CURSO'].unique()
 #curso_selecionado = st.selectbox("Escolha o curso:", cursos)
 curso_selecionado = st.selectbox("Escolha o curso:", cursos, index=list(cursos).index('Medicina - Bacharelado'))
 
@@ -21,7 +21,7 @@ curso_selecionado = st.selectbox("Escolha o curso:", cursos, index=list(cursos).
 lingua_estrangeira = st.selectbox("Escolha a Língua Estrangeira:", ['Inglês', 'Espanhol', 'Italiano', 'Francês', 'Alemão'])
 
 # Obter os pesos do curso selecionado
-pesos_curso = df_pesos[df_pesos['CURSOS'] == curso_selecionado].iloc[0]
+pesos_curso = df_pesos[df_pesos['CURSO'] == curso_selecionado].iloc[0]
 
 # Disciplinas e mapeamento de pesos
 disciplinas = [
@@ -98,7 +98,7 @@ with col1:
 
 # Segunda coluna para os próximos 5 campos
 with col2:
-    st.subheader("2° Dia") 
+    st.subheader("2° Dia")         
     acertos_redacao = st.slider("Nota em Redação:", min_value=0.0, max_value=15.0, step=0.05)
     acertos_lingua = st.slider(f"Acertos em {lingua_estrangeira}:", min_value=0, max_value=15, step=1)
     acertos_fisica = st.slider("Acertos em Física:", min_value=0, max_value=15, step=1)
@@ -173,7 +173,6 @@ print()
 st.subheader("Tabela de Notas")
  
 df_formatada = df_acertos[['Disciplina', 'Peso', 'Acertos', 'Notas', 'Média', 'Des. Padrão']]
-
 df_formatada.set_index('Disciplina', inplace=True)
 
 # Exibir a tabela formatada
@@ -198,13 +197,23 @@ notas_corte = {
     }
 }
 
-# Exibir notas de corte apenas para Medicina
-if curso_selecionado == "Medicina - Bacharelado":
+#Filtrar os dados pelo curso selecionado
+df_pesos_filtrado = df_pesos[df_pesos['CURSO'] == curso_selecionado]
+
+# Verificar se o curso foi encontrado
+if not df_pesos_filtrado.empty:
+    # Selecionar as colunas desejadas
+    colunas_desejadas = ['CURSO', 'DENSIDADE 2024', 'AMPLA CONCORRÊNCIA', 'ESCOLA PÚBLICA']    
+    df_resultado = df_pesos_filtrado[colunas_desejadas]
+    df_resultado.set_index('CURSO', inplace=True)
+    
+    # Exibir a tabela no Streamlit
     st.subheader("Notas de Corte")
-    for modalidade, nota_corte in notas_corte.get(curso_selecionado, {}).items():
-        st.write(f"{modalidade}: {nota_corte:.2f}")
+    st.dataframe(df_resultado)
 else:
     st.write('')
 
+
 st.caption("*Cálculo baseado nos dados da UFRGS 2023")
+st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
