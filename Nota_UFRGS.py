@@ -203,13 +203,17 @@ df_pesos_filtrado = df_pesos[df_pesos['CURSO'] == curso_selecionado]
 # Verificar se o curso foi encontrado
 if not df_pesos_filtrado.empty:
     # Selecionar as colunas desejadas
-    colunas_desejadas = ['CURSO', 'DENSIDADE 2024', 'AMPLA CONCORRÊNCIA', 'ESCOLA PÚBLICA']    
+    colunas_desejadas = ['CURSO', 'Densidade 2024',	'Ampla Concorrência',	'Escola Pública']    
     df_resultado = df_pesos_filtrado[colunas_desejadas]
-    df_resultado.set_index('CURSO', inplace=True)
+    df_resultado.set_index('CURSO', inplace=True)    
+    
+    
+    # Transpor o DataFrame
+    df_transposto = df_resultado.T
     
     # Exibir a tabela no Streamlit
     st.subheader("Notas de Corte")
-    st.dataframe(df_resultado)
+    st.dataframe(df_transposto)
 else:
     st.write('')
 
