@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # Título do App
 st.title("Cálculo da Nota - UFRGS")
@@ -7,8 +8,7 @@ st.title("Cálculo da Nota - UFRGS")
 # Carregar o arquivo de Pesos e Notas de Corte
 pesos_file = 'Pesos_NotasCortes_UFRGS.csv'
 df_pesos = pd.read_csv(pesos_file, sep=';', encoding='latin-1')
-
-    
+   
 #Criação das colunas para entrada de acertos
 st.subheader("Escolha o curso e a língua estrangeira")
 
@@ -188,25 +188,15 @@ st.dataframe(
 # Exibir a nota final
 st.subheader(f"Nota Final: {nota_final:.2f}")
 
-
-# Notas de corte para Medicina
-notas_corte = {
-    "Medicina - Bacharelado": {
-        "Ampla Concorrência (AC/A0)": 722.70,
-        "Escola Pública (L3/L5)": 717.52,
-    }
-}
-
 #Filtrar os dados pelo curso selecionado
 df_pesos_filtrado = df_pesos[df_pesos['CURSO'] == curso_selecionado]
 
 # Verificar se o curso foi encontrado
 if not df_pesos_filtrado.empty:
     # Selecionar as colunas desejadas
-    colunas_desejadas = ['CURSO', 'Densidade 2024',	'Ampla Concorrência',	'Escola Pública']    
+    colunas_desejadas = ['CURSO', 'Densidade 2023',	'Ampla Concorrência',	'Escola Pública']    
     df_resultado = df_pesos_filtrado[colunas_desejadas]
-    df_resultado.set_index('CURSO', inplace=True)    
-    
+    df_resultado.set_index('CURSO', inplace=True)  
     
     # Transpor o DataFrame
     df_transposto = df_resultado.T
@@ -217,7 +207,9 @@ if not df_pesos_filtrado.empty:
 else:
     st.write('')
 
-
 st.caption("*Cálculo baseado nos dados da UFRGS 2023")
 st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
+
+            
+       
