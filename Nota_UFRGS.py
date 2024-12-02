@@ -2,24 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-# Caminho para o arquivo de contagem de acessos
-contador_file = "contador_acessos.txt"
-
-# Função para obter o contador
-def obter_contador(file_path):
-    if os.path.exists(file_path):
-        with open(file_path, "r") as file:
-            return int(file.read().strip())
-    return 0
-
-# Função para incrementar o contador
-def incrementar_contador(file_path):
-    contador_atual = obter_contador(file_path)
-    novo_contador = contador_atual + 1
-    with open(file_path, "w") as file:
-        file.write(str(novo_contador))
-    return novo_contador
-
 
 # Título do App
 st.title("Cálculo da Nota - UFRGS 2025")
@@ -232,9 +214,4 @@ else:
 st.caption("*Média e Desvio Padrão de Redação são de 2024")
 st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
-
-# Incrementar e exibir contador de acessos
-contador_atual = incrementar_contador(contador_file)
-st.caption(f"Contador: {contador_atual}")
-
 
