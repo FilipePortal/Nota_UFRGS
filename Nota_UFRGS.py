@@ -249,4 +249,4 @@ st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
 
 # Interface do Streamlit
-st.caption(f"Contador: {total_acessos}")
+#st.caption(f"Contador: {total_acessos}")
