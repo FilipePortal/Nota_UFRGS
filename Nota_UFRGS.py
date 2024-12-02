@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # Título do App
-st.title("Cálculo da Nota - UFRGS")
+st.title("Cálculo da Nota - UFRGS 2025")
 
 # Carregar o arquivo de Pesos e Notas de Corte
 pesos_file = 'Pesos_NotasCortes_UFRGS.csv'
@@ -45,39 +45,39 @@ disciplina_peso_map = {
 
 # Médias e desvios padrão
 medias = {
-    'Português e Redação': 18.8296,
-    'Literatura': 8.5644,
-    'História': 7.6036,
-    'Matemática': 5.3935,
+    'Português e Redação': 18.1546, #18.8296 2024
+    'Literatura': 8.0569, #8.5644 
+    'História': 7.8204, #7.6036
+    'Geografia': 7.3183, #7.1512
+    'Matemática': 5.8802, #5.3935
     
-    'Inglês': 5.8173,
-    'Espanhol': 5.5619,
-    'Italiano': 8.1600,  
-    'Francês': 6.6000,
-    'Alemão': 8.4762,
+    'Inglês': 6.9984, #5.8173
+    'Espanhol': 6.1463, #5.5619
+    'Italiano': 8.1765, #8.1600  
+    'Francês': 9.9000, #6.6000
+    'Alemão': 6.4815, #8.4762
     
-    'Física': 4.4384,
-    'Química': 5.4012,    
-    'Geografia': 7.1512,
-    'Biologia': 5.8274
+    'Física': 4.4819, #4.4384
+    'Química': 4.9936, #5.4012
+    'Biologia': 5.3589  #5.8274
 }
 
 desvios = {
-    'Português e Redação': 4.033,
-    'Literatura': 3.0594,
-    'História': 2.6330,    
-    'Matemática': 2.5637,
+    'Português e Redação': 4.1546, #4.033
+    'Literatura': 2.5854, #3.0594
+    'História': 2.5160, #2.6330 
+    'Geografia': 2.6332, #2.6252    
+    'Matemática': 3.3221, #2.5637
     
-    'Inglês': 2.7626,
-    'Espanhol': 2.0791,    
-    'Italiano': 3.1709,  
-    'Francês': 4.3405,
-    'Alemão': 3.7240,
+    'Inglês': 3.0143, # 2.7626
+    'Espanhol': 2.5287, #2.0791    
+    'Italiano': 3.2128, #3.1709 
+    'Francês': 3.9357, #4.3405
+    'Alemão': 3.0107, #3.7240
     
-    'Física': 2.4054,
-    'Química': 2.3546,    
-    'Geografia': 2.6252,
-    'Biologia': 2.463
+    'Física': 2.2047, #2.4054
+    'Química': 2.4646, #2.3546
+    'Biologia': 2.7264 #2.463
 }
 
 # Criação das colunas para entrada de acertos
@@ -194,7 +194,8 @@ df_pesos_filtrado = df_pesos[df_pesos['CURSO'] == curso_selecionado]
 # Verificar se o curso foi encontrado
 if not df_pesos_filtrado.empty:
     # Selecionar as colunas desejadas
-    colunas_desejadas = ['CURSO', 'Densidade 2023',	'Ampla Concorrência',	'Escola Pública']    
+    #colunas_desejadas = ['CURSO', 'Densidade 2024',	'Ampla Concorrência',	'Escola Pública']   
+    colunas_desejadas = ['CURSO', 'Ampla Concorrência',	'Escola Pública']     
     df_resultado = df_pesos_filtrado[colunas_desejadas]
     df_resultado.set_index('CURSO', inplace=True)  
     
@@ -202,12 +203,12 @@ if not df_pesos_filtrado.empty:
     df_transposto = df_resultado.T
     
     # Exibir a tabela no Streamlit
-    st.subheader("Notas de Corte")
+    st.subheader("Notas de Corte - 2024")
     st.dataframe(df_transposto)
 else:
     st.write('')
 
-st.caption("*Cálculo baseado nos dados da UFRGS 2023")
+st.caption("*Média e Desvio Padrão de Redação são de 2024")
 st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
 
