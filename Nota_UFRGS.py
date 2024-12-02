@@ -1,6 +1,41 @@
 import streamlit as st
 import pandas as pd
 import os
+import uuid
+
+# Função para criar ou recuperar um identificador único para o visitante
+def get_unique_user_id():
+    if "user_id" not in st.session_state:
+        st.session_state["user_id"] = str(uuid.uuid4())  # Gera um identificador único para o visitante
+    return st.session_state["user_id"]
+
+# Função para registrar acessos únicos
+def registrar_acesso_unico(file_path, user_id):
+    try:
+        # Tenta carregar os IDs existentes
+        with open(file_path, "r") as file:
+            acessos = set(file.read().splitlines())
+    except FileNotFoundError:
+        acessos = set()  # Cria um conjunto vazio se o arquivo não existir
+
+    # Adiciona o ID do visitante atual, se ainda não estiver registrado
+    acessos.add(user_id)
+
+    # Salva novamente no arquivo
+    with open(file_path, "w") as file:
+        file.write("\n".join(acessos))
+
+    return len(acessos)  # Retorna o número total de acessos únicos
+
+# Caminho do arquivo onde serão registrados os acessos únicos
+contador_file = "acessos_unicos.txt"
+
+# Obter o identificador único do visitante
+user_id = get_unique_user_id()
+
+# Registrar o acesso único
+total_acessos = registrar_acesso_unico(contador_file, user_id)
+
 
 
 # Título do App
@@ -9,8 +44,6 @@ st.title("Cálculo da Nota - UFRGS 2025")
 # Carregar o arquivo de Pesos e Notas de Corte
 pesos_file = 'Pesos_NotasCortes_UFRGS.csv'
 df_pesos = pd.read_csv(pesos_file, sep=';', encoding='latin-1')
-
-
    
 #Criação das colunas para entrada de acertos
 st.subheader("Escolha o curso e a língua estrangeira")
@@ -215,3 +248,5 @@ st.caption("*Média e Desvio Padrão de Redação são de 2024")
 st.caption("**Não foi considerado as notas de corte após as chamadas")
 st.caption("v.2024 Prof. Portal")
 
+# Interface do Streamlit
+st.caption(f"Contador: {total_acessos}")
